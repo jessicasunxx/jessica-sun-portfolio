@@ -35,6 +35,37 @@ a {
   padding: 2.5rem 0 2rem;
   background: linear-gradient(135deg, #0f172a, #1e293b);
   color: #f9fafb;
+  position: relative;
+}
+
+.site-header .container {
+  position: relative;
+}
+
+.home-link {
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(249, 250, 251, 0.1);
+  border: 1px solid rgba(249, 250, 251, 0.2);
+  border-radius: 0.5rem;
+  color: #f9fafb;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    transform 0.1s ease;
+  display: inline-block;
+}
+
+.home-link:hover {
+  background-color: rgba(249, 250, 251, 0.2);
+  border-color: rgba(249, 250, 251, 0.3);
+  transform: translateY(-1px);
+}
+
+.home-link:active {
+  transform: translateY(0);
 }
 
 .site-title {
@@ -203,6 +234,13 @@ h2 {
 @media (max-width: 720px) {
   .site-header {
     padding: 2rem 0 1.75rem;
+  }
+
+  .home-link {
+    top: 0;
+    left: 1.5rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
   }
 
   .site-title {
