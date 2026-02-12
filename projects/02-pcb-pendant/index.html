@@ -22,6 +22,7 @@
             <img
               src="images/hero_image.jpeg"
               alt="Main view of the PCB pendant with flashing LED powered by a 555 timer chip and coin cell battery"
+              style="max-width: 600px; margin: 0 auto;"
             />
             <figcaption class="project-image-caption">
               Main view of the PCB pendant with flashing LED powered by a 555 timer chip and coin cell battery.
@@ -67,32 +68,24 @@
         </section>
 
         <section class="project-section">
-          <h2>Documentation</h2>
-          <p>
-            <strong>Blog Post:</strong>
-            <a href="#" target="_blank" style="color: #0f172a; text-decoration: underline;">
-              [Link to blog post - add your blog post URL here]
-            </a>
-          </p>
-          <p>
-            <strong>GitHub Repository:</strong>
-            <a href="#" target="_blank" style="color: #0f172a; text-decoration: underline;">
-              [Link to GitHub repo - add your repository URL here]
-            </a>
-          </p>
-        </section>
-
-        <section class="project-section">
           <h2>Video</h2>
           <figure>
-            <video controls style="width: 100%; border-radius: 0.5rem;">
-              <source src="images/movie.MOV" type="video/quicktime">
-              Your browser does not support the video tag.
-            </video>
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 0.5rem;">
+              <iframe
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+              </iframe>
+            </div>
             <figcaption class="project-image-caption">
               Demonstration of the PCB pendant's flashing LED pattern in action.
             </figcaption>
           </figure>
+          <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #6b7280;">
+            Replace "YOUR_VIDEO_ID" in the iframe src with your YouTube video ID (the part after "youtube.com/watch?v=" in your video URL).
+          </p>
         </section>
 
         <section class="project-section">
