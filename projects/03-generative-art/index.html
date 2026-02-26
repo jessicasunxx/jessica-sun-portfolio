@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MILSTEIN — A Small Generative Moment • Jessica Sun</title>
+    <title>MILSTEIN: A Small Generative Moment • Jessica Sun</title>
     <link rel="stylesheet" href="../../styles.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container">
         <a href="../../index.html" class="home-link">Home</a>
-        <h1 class="site-title">MILSTEIN — A Small Generative Moment</h1>
+        <h1 class="site-title">MILSTEIN: A Small Generative Moment</h1>
         <p class="site-subtitle">Project 03 · Creative Embedded Systems</p>
       </div>
     </header>
@@ -51,9 +51,15 @@
             <h2>Concept &amp; Text</h2>
             <ul>
               <li>
-                The piece is titled “MILSTEIN — A Small Generative Moment” and
+                The piece is titled “MILSTEIN: A Small Generative Moment” and
                 centers on the single word “MILSTEIN” to ground the work in the
                 fifth-floor hallway where people pass between classes.
+              </li>
+              <li>
+                I leaned into a slow, rainbow gradient for the text because I
+                love the feeling of being surrounded by color in the Milstein
+                library stacks; it lets the hallway piece quietly echo the
+                energy of the books and screens just outside our classroom.
               </li>
               <li>
                 The word works as a familiar signpost that periodically dissolves
@@ -103,7 +109,7 @@
           <p>
             Color is chosen from a continuous HSV sweep, which produces a slow
             hue cycle across the text. Because all of this is computed on-device
-            each frame—rather than playing back a pre-rendered animation—the
+            each frame instead of playing back a pre-rendered animation, the
             display never exactly repeats, even over the duration of a class
             period.
           </p>
@@ -169,7 +175,7 @@
             </figcaption>
           </figure>
           <p>
-            A short 20–40 second handheld phone video is enough to show the
+            A short 20 to 40 second handheld phone video is enough to show the
             breathing motion of the text and how the envelope frames the
             display. You can also export or embed a GIF version of the sketch
             for quick preview in documentation.
@@ -185,10 +191,9 @@
           <ul>
             <li>
               <strong>Repository:</strong>
-              <a href="https://github.com/YOUR_USERNAME/milstein-esp32" target="_blank"
-                >https://github.com/YOUR_USERNAME/milstein-esp32</a
+              <a href="https://github.com/jessicasunxx/esp32-platformio" target="_blank"
+                >https://github.com/jessicasunxx/esp32-platformio</a
               >
-              <em>(replace with your actual repo link)</em>
             </li>
           </ul>
           <p>
@@ -199,13 +204,13 @@
             installation. In particular, it documents the key files:
           </p>
           <ul>
-            <li><code>src/main.cpp</code> — the generative sketch</li>
+            <li><code>src/main.cpp</code> is the generative sketch</li>
             <li>
-              <code>platformio.ini</code> — PlatformIO configuration referencing
+              <code>platformio.ini</code> is the PlatformIO configuration referencing
               the TTGO setup for <code>TFT_eSPI</code>
             </li>
             <li>
-              <code>README.md</code> — build/upload instructions and notes on
+              <code>README.md</code> is the README with build and upload instructions and notes on
               customizing the text and parameters
             </li>
           </ul>
@@ -297,8 +302,8 @@
           <p>
             Working within the constraints of the small screen, limited color
             palette, and battery life made me more intentional about each visual
-            decision. It also made me notice practical details—like update
-            speed, brightness, and text size—that quietly shape how readable and
+            decision. It also made me notice practical details like update
+            speed, brightness, and text size that quietly shape how readable and
             inviting the piece feels in public.
           </p>
           <p>
