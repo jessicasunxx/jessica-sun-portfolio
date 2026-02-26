@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generative Text Display • Jessica Sun</title>
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a href="../../index.html" class="home-link">Home</a>
+        <h1 class="site-title">Generative Text Display</h1>
+        <p class="site-subtitle">Project 03 · Creative Embedded Systems</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <section class="project-hero">
+          <figure>
+            <img
+              src="images/hero_image.jpeg"
+              alt="ESP32 TTGO T-Display showing a generative text visualization installed in a paper envelope in the Milstein hallway"
+              style="max-width: 600px; margin: 0 auto;"
+            />
+            <figcaption class="project-image-caption">
+              ESP32 TTGO T-Display running a generative text sketch, hanging in a
+              paper envelope in the fifth floor Milstein hallway.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section class="project-header">
+          <h1>Generative Text on ESP32 TTGO T-Display</h1>
+          <p>
+            For this assignment, I created a small generative art piece that runs
+            entirely on an ESP32 TTGO T-Display. The screen continually
+            re-composes a short text in response to time and randomness, so the
+            piece never loops in exactly the same way twice during the
+            installation.
+          </p>
+        </section>
+
+        <section class="project-meta-layout">
+          <div class="project-section">
+            <h2>Concept &amp; Text</h2>
+            <ul>
+              <li>
+                Context-appropriate text chosen for the Milstein fifth floor
+                hallway:
+                <em>[briefly describe your text source here, e.g. a poem,
+                  overheard phrases, or language related to study and rest]</em>.
+              </li>
+              <li>
+                The text is treated less as something to be read linearly and
+                more as material for visual rhythm, pacing, and emphasis.
+              </li>
+              <li>
+                Visual decisions (color, placement, motion) are meant to feel
+                calm and ambient so the piece sits comfortably in a hallway
+                space rather than demanding full attention.
+              </li>
+            </ul>
+          </div>
+
+          <div class="project-section">
+            <h2>Hardware &amp; Tools</h2>
+            <ul>
+              <li>ESP32 TTGO T-Display board</li>
+              <li>Battery for untethered installation in the hallway</li>
+              <li>USB cable for programming and debugging</li>
+              <li>Paper envelope and tape for mounting the piece</li>
+              <li>
+                Development environment:
+                <em>[Arduino IDE / PlatformIO / other, update as appropriate]</em>
+              </li>
+              <li>GitHub repository with the ESP32 sketch and README</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="project-section">
+          <h2>Generative System</h2>
+          <p>
+            The sketch breaks the text into smaller units (words, phrases, or
+            characters) and uses randomness and timing to decide which fragments
+            appear, where on the screen they land, and how they transition in
+            and out. Instead of a fixed animation, parameters like delay,
+            position, and color vary over time, so the display is always in a
+            different state.
+          </p>
+          <p>
+            To keep the installation readable in passing, I balanced
+            unpredictability with structure: core phrases return regularly while
+            smaller variations (ordering, spacing, and subtle movement) keep the
+            piece from feeling like a looped GIF.
+          </p>
+          <p>
+            <em>
+              [Use this space to describe any additional generative rules you
+              implemented: for example, how often the text resets, how you seed
+              randomness, or how you avoid burning in the OLED/LCD.]
+            </em>
+          </p>
+        </section>
+
+        <section class="project-section">
+          <h2>Installation in Milstein</h2>
+          <p>
+            During class, the ESP32 ran from a battery and was hung in a small
+            paper envelope in the fifth floor Milstein hallway near the
+            elevators. The envelope framed the tiny screen and hid most of the
+            wiring so that the glowing text felt like a small window rather than
+            a piece of lab equipment.
+          </p>
+          <p>
+            <em>
+              [Add a short note here about how your specific placement,
+              brightness, and pacing responded to the hallway environment and to
+              other students' pieces in the shared installation.]
+            </em>
+          </p>
+        </section>
+
+        <section class="project-section">
+          <h2>Video Documentation</h2>
+          <figure>
+            <div
+              style="
+                position: relative;
+                padding-bottom: 56.25%;
+                height: 0;
+                overflow: hidden;
+                max-width: 100%;
+                border-radius: 0.5rem;
+              "
+            >
+              <!-- Replace VIDEO_ID_HERE with your actual video ID or URL -->
+              <iframe
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                "
+                src="https://www.youtube.com/embed/VIDEO_ID_HERE"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <figcaption class="project-image-caption">
+              Short video showing the ESP32 TTGO T-Display running the
+              generative text sketch and how it sits within the larger hallway
+              installation.
+            </figcaption>
+          </figure>
+          <p>
+            <em>
+              [If you prefer another hosting platform, update the embed or add a
+              simple link instead.]
+            </em>
+          </p>
+        </section>
+
+        <section class="project-section">
+          <h2>Code &amp; README</h2>
+          <p>
+            The full ESP32 sketch and documentation live in the following GitHub
+            repository:
+          </p>
+          <ul>
+            <li>
+              <strong>Repository:</strong>
+              <a href="https://github.com/USERNAME/REPO-NAME" target="_blank"
+                >https://github.com/USERNAME/REPO-NAME</a
+              >
+              <em>(replace with your actual repo link)</em>
+            </li>
+          </ul>
+          <p>
+            The README in that repository describes how to flash the code onto a
+            TTGO T-Display, what libraries you need, and any configuration
+            details (like pin definitions, battery setup, and display
+            initialization) so that another artist could reproduce the
+            installation.
+          </p>
+        </section>
+
+        <section class="project-section">
+          <h2>Photos &amp; Installation Views</h2>
+          <p>
+            <em>
+              [Add still photos here of the device, the screen close-up, and the
+              hallway installation. You can follow the structure of the previous
+              project pages by adding a photo grid with figures and captions.]
+            </em>
+          </p>
+        </section>
+
+        <section class="project-section">
+          <h2>Reflection</h2>
+          <p>
+            This project pushed me to think about code as a medium for composing
+            time and text, not just for making something "work." Instead of
+            debugging toward a single correct output, I was tuning a space of
+            possible behaviors so that the piece would feel alive but not
+            chaotic when people walked past it.
+          </p>
+          <p>
+            Working within the constraints of the small screen, limited color
+            palette, and battery life made me more intentional about each visual
+            decision. It also made me notice practical details—like update
+            speed, brightness, and text size—that quietly shape how readable and
+            inviting the piece feels in public.
+          </p>
+          <p>
+            <em>
+              [Use this section to talk about your specific creative decisions,
+              what surprised you technically, and what you might change if you
+              iterated on the piece or scaled it up beyond a single ESP32.]
+            </em>
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          © 2026 Jessica Sun ·
+          <a href="../../index.html">Back to portfolio</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
