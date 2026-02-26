@@ -16,9 +16,12 @@ jessica-sun-portfolio/
 │   ├── 01-soldering-sculpture/
 │   │   ├── index.html      # Project page
 │   │   └── images/         # Project images
-│   └── 02-pcb-pendant/
+│   ├── 02-pcb-pendant/
+│   │   ├── index.html      # Project page
+│   │   └── images/         # Project images
+│   └── 03-generative-art/
 │       ├── index.html      # Project page
-│       └── images/         # Project images
+│       └── images/         # Project images and documentation
 └── README.md
 ```
 

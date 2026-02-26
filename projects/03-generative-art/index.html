@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Generative Text Display • Jessica Sun</title>
+    <title>MILSTEIN — A Small Generative Moment • Jessica Sun</title>
     <link rel="stylesheet" href="../../styles.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container">
         <a href="../../index.html" class="home-link">Home</a>
-        <h1 class="site-title">Generative Text Display</h1>
+        <h1 class="site-title">MILSTEIN — A Small Generative Moment</h1>
         <p class="site-subtitle">Project 03 · Creative Embedded Systems</p>
       </div>
     </header>
@@ -34,11 +34,15 @@
         <section class="project-header">
           <h1>Generative Text on ESP32 TTGO T-Display</h1>
           <p>
-            For this assignment, I created a small generative art piece that runs
-            entirely on an ESP32 TTGO T-Display. The screen continually
-            re-composes a short text in response to time and randomness, so the
-            piece never loops in exactly the same way twice during the
-            installation.
+            A short generative art piece running on an ESP32 TTGO T-Display. The
+            device displays the text “MILSTEIN” and uses smooth, noise-driven
+            displacement and slow color cycling to create a calming, breathing
+            visual suitable for a hallway installation.
+          </p>
+          <p>
+            This page documents the artistic vision for the piece, how it was
+            tailored to the fifth-floor Milstein hallway, and the technical
+            details needed for other artists to reproduce or extend the work.
           </p>
         </section>
 
@@ -47,19 +51,21 @@
             <h2>Concept &amp; Text</h2>
             <ul>
               <li>
-                Context-appropriate text chosen for the Milstein fifth floor
-                hallway:
-                <em>[briefly describe your text source here, e.g. a poem,
-                  overheard phrases, or language related to study and rest]</em>.
+                The piece is titled “MILSTEIN — A Small Generative Moment” and
+                centers on the single word “MILSTEIN” to ground the work in the
+                fifth-floor hallway where people pass between classes.
               </li>
               <li>
-                The text is treated less as something to be read linearly and
-                more as material for visual rhythm, pacing, and emphasis.
+                The word works as a familiar signpost that periodically dissolves
+                and reforms, turning the building name into a slowly shifting
+                visual object rather than a static label.
               </li>
               <li>
                 Visual decisions (color, placement, motion) are meant to feel
-                calm and ambient so the piece sits comfortably in a hallway
-                space rather than demanding full attention.
+                calm and ambient so the display reads as meditative instead of
+                demanding. The text is treated less as something to read
+                linearly and more as material for visual rhythm, pacing, and
+                emphasis.
               </li>
             </ul>
           </div>
@@ -73,9 +79,14 @@
               <li>Paper envelope and tape for mounting the piece</li>
               <li>
                 Development environment:
-                <em>[Arduino IDE / PlatformIO / other, update as appropriate]</em>
+                Arduino framework with PlatformIO, using the <code>TFT_eSPI</code>
+                library configured for the TTGO T-Display (ST7789, 135×240).
               </li>
-              <li>GitHub repository with the ESP32 sketch and README</li>
+              <li>
+                GitHub repository with the ESP32 sketch
+                (<code>src/main.cpp</code>), <code>platformio.ini</code>, and a
+                detailed README.
+              </li>
             </ul>
           </div>
         </section>
@@ -83,25 +94,25 @@
         <section class="project-section">
           <h2>Generative System</h2>
           <p>
-            The sketch breaks the text into smaller units (words, phrases, or
-            characters) and uses randomness and timing to decide which fragments
-            appear, where on the screen they land, and how they transition in
-            and out. Instead of a fixed animation, parameters like delay,
-            position, and color vary over time, so the display is always in a
-            different state.
+            The sketch renders the text “MILSTEIN” to the display and then
+            treats it as a mask for a grid of colored blocks. For each sampled
+            point inside the text, the program computes a smooth, time-varying
+            displacement using a cheap trig-based noise function, so the letters
+            slowly breathe, dissolve, and re-form.
           </p>
           <p>
-            To keep the installation readable in passing, I balanced
-            unpredictability with structure: core phrases return regularly while
-            smaller variations (ordering, spacing, and subtle movement) keep the
-            piece from feeling like a looped GIF.
+            Color is chosen from a continuous HSV sweep, which produces a slow
+            hue cycle across the text. Because all of this is computed on-device
+            each frame—rather than playing back a pre-rendered animation—the
+            display never exactly repeats, even over the duration of a class
+            period.
           </p>
           <p>
-            <em>
-              [Use this space to describe any additional generative rules you
-              implemented: for example, how often the text resets, how you seed
-              randomness, or how you avoid burning in the OLED/LCD.]
-            </em>
+            For performance and legibility, the code samples the text on a
+            downscaled grid (for example, every 3 pixels) and draws small
+            rectangles instead of individual pixels. This keeps the motion
+            smooth on the TTGO while also giving the letters a slightly blocky,
+            mosaic-like texture that works well at arm’s length.
           </p>
         </section>
 
@@ -115,11 +126,11 @@
             a piece of lab equipment.
           </p>
           <p>
-            <em>
-              [Add a short note here about how your specific placement,
-              brightness, and pacing responded to the hallway environment and to
-              other students' pieces in the shared installation.]
-            </em>
+            To keep the piece gentle and sustainable in that shared space, I
+            kept the brightness low, the motion slow, and the text short and
+            readable from arm’s length. The continuous, non-repeating behavior
+            meant that each glance at the installation revealed a slightly
+            different moment, while still clearly saying “MILSTEIN.”
           </p>
         </section>
 
@@ -136,7 +147,7 @@
                 border-radius: 0.5rem;
               "
             >
-              <!-- Replace VIDEO_ID_HERE with your actual video ID or URL -->
+              <!-- Replace YOUR_VIDEO_ID with your actual video ID -->
               <iframe
                 style="
                   position: absolute;
@@ -145,7 +156,7 @@
                   width: 100%;
                   height: 100%;
                 "
-                src="https://www.youtube.com/embed/VIDEO_ID_HERE"
+                src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
@@ -158,10 +169,10 @@
             </figcaption>
           </figure>
           <p>
-            <em>
-              [If you prefer another hosting platform, update the embed or add a
-              simple link instead.]
-            </em>
+            A short 20–40 second handheld phone video is enough to show the
+            breathing motion of the text and how the envelope frames the
+            display. You can also export or embed a GIF version of the sketch
+            for quick preview in documentation.
           </p>
         </section>
 
@@ -174,8 +185,8 @@
           <ul>
             <li>
               <strong>Repository:</strong>
-              <a href="https://github.com/USERNAME/REPO-NAME" target="_blank"
-                >https://github.com/USERNAME/REPO-NAME</a
+              <a href="https://github.com/YOUR_USERNAME/milstein-esp32" target="_blank"
+                >https://github.com/YOUR_USERNAME/milstein-esp32</a
               >
               <em>(replace with your actual repo link)</em>
             </li>
@@ -185,29 +196,73 @@
             TTGO T-Display, what libraries you need, and any configuration
             details (like pin definitions, battery setup, and display
             initialization) so that another artist could reproduce the
-            installation.
+            installation. In particular, it documents the key files:
+          </p>
+          <ul>
+            <li><code>src/main.cpp</code> — the generative sketch</li>
+            <li>
+              <code>platformio.ini</code> — PlatformIO configuration referencing
+              the TTGO setup for <code>TFT_eSPI</code>
+            </li>
+            <li>
+              <code>README.md</code> — build/upload instructions and notes on
+              customizing the text and parameters
+            </li>
+          </ul>
+          <p>
+            A typical reproducible workflow is:
+          </p>
+          <ol>
+            <li>Clone the repository to your machine.</li>
+            <li>
+              Open the folder in VS Code with the PlatformIO extension, or
+              install PlatformIO Core via <code>pip</code>.
+            </li>
+            <li>
+              Connect a TTGO T-Display via USB and select the correct serial
+              port (for example, <code>/dev/cu.usbserial-XXXXX</code> on macOS).
+            </li>
+            <li>
+              Build and upload via PlatformIO’s tasks or with the CLI commands:
+              <code>pio run</code> and <code>pio run -t upload</code>.
+            </li>
+            <li>
+              For battery operation, reduce brightness using the backlight pin
+              and slow the frame rate if you need longer runtime.
+            </li>
+          </ol>
+          <p>
+            The documentation also notes common technical issues, like
+            backlight control (TTGO variants wire the <code>TFT_BL</code> pin
+            differently), serial port selection on macOS, and why the sketch
+            samples a downscaled grid and draws blocks instead of manipulating
+            every pixel for performance.
           </p>
         </section>
 
         <section class="project-section">
           <h2>Photos &amp; Installation Views</h2>
           <p>
-            <em>
-              [Add still photos here of the device, the screen close-up, and the
-              hallway installation. You can follow the structure of the previous
-              project pages by adding a photo grid with figures and captions.]
-            </em>
+            Visual documentation includes a short video clip from the hallway
+            installation and 2–4 still photos: a close-up of the display
+            showing the breathing “MILSTEIN” text, and wider shots of the paper
+            envelope installation at approximately chest/head height.
+          </p>
+          <p>
+            Once final photos are selected, they can be added here following the
+            same image grid pattern used in other projects on this site.
           </p>
         </section>
 
         <section class="project-section">
           <h2>Reflection</h2>
           <p>
-            This project pushed me to think about code as a medium for composing
-            time and text, not just for making something "work." Instead of
-            debugging toward a single correct output, I was tuning a space of
-            possible behaviors so that the piece would feel alive but not
-            chaotic when people walked past it.
+            I prioritized legibility and battery life over heavy visual
+            complexity because the devices needed to run unattended for a class
+            period while hanging in a public hallway. Instead of debugging
+            toward a single correct output, I was tuning a space of possible
+            behaviors so that the piece would feel alive but not chaotic when
+            people walked past it.
           </p>
           <p>
             Working within the constraints of the small screen, limited color
@@ -217,11 +272,18 @@
             inviting the piece feels in public.
           </p>
           <p>
-            <em>
-              [Use this section to talk about your specific creative decisions,
-              what surprised you technically, and what you might change if you
-              iterated on the piece or scaled it up beyond a single ESP32.]
-            </em>
+            The generative technique (on-device displacement plus hue cycling)
+            also scales well across many devices: each board will compute
+            slightly different frames depending on its internal clock, creating
+            a subtly non-uniform installation while still sharing a clear visual
+            language.
+          </p>
+          <p>
+            Looking ahead, I could imagine extending this work with a small web
+            or BLE-based interface to edit the displayed text remotely, swapping
+            the trig-based noise for a richer Perlin or Simplex implementation,
+            or adding low-power sleep scheduling so that the piece adapts to the
+            building’s daily rhythm.
           </p>
         </section>
       </div>
