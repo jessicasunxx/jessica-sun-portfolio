@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Louis Vuitton Limited Edition Piano • Jessica Sun</title>
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a href="../../index.html" class="home-link">Home</a>
+        <h1 class="site-title">Louis Vuitton Limited Edition Piano</h1>
+        <p class="site-subtitle">Project 04 · Creative Embedded Systems</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <section class="project-hero">
+          <figure>
+            <img
+              src="images/lv-piano-hero.jpeg"
+              alt="Louis Vuitton Limited Edition Piano — five copper touch pads arranged like piano keys on top of a Louis Vuitton box enclosure"
+              style="max-width: 700px; margin: 0 auto;"
+            />
+            <figcaption class="project-image-caption">
+              The finished instrument: five copper-tape touch pads mounted as
+              piano keys on a Louis Vuitton box, with the ESP32 and breadboard
+              hidden inside.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section class="project-header">
+          <h1>Louis Vuitton Limited Edition Piano</h1>
+          <p>
+            A five-key touch-sensitive synthesizer built on an ESP32 TTGO
+            T-Display. The touch pads sit on top of a Louis Vuitton box like
+            miniature piano keys, and the instrument streams sensor data over
+            serial to a laptop running real-time visuals and sound generation.
+            Two modes — melodic notes and ambient textures — are switchable
+            entirely from the touch interface, making the box a self-contained
+            performance instrument.
+          </p>
+          <p>
+            The project merges fashion packaging with electronics: the LV box
+            becomes both the enclosure that hides the breadboard and ESP32 and
+            the stage on which the keys are played. The result is something
+            that looks like a luxury collectible but sounds like a synth.
+          </p>
+        </section>
+
+        <section class="project-meta-layout">
+          <div class="project-section">
+            <h2>Hardware &amp; Materials</h2>
+            <ul>
+              <li>ESP32 TTGO T-Display (LILYGO)</li>
+              <li>Breadboard for wiring and component mounting</li>
+              <li>Copper tape cut into five rectangular key pads</li>
+              <li>Jumper wires connecting pads to GPIO touch pins</li>
+              <li>Louis Vuitton box (enclosure and performance surface)</li>
+              <li>USB cable for serial data and power</li>
+            </ul>
+            <p>
+              <strong>Pin mapping:</strong> pad1 = GPIO2, pad2 = GPIO12,
+              pad3 = GPIO13, pad4 = GPIO32, pad5 = GPIO27.
+            </p>
+          </div>
+
+          <div class="project-section">
+            <h2>Design Decisions</h2>
+            <ul>
+              <li>
+                I chose the piano-key layout because it gives each finger a
+                natural home position and makes it easy to see which pad you
+                are pressing, even without labels.
+              </li>
+              <li>
+                The LV box was chosen for its rigid structure, clean aesthetic,
+                and the playful contrast between luxury packaging and DIY
+                electronics — it reframes something disposable as a musical
+                instrument.
+              </li>
+              <li>
+                Copper tape was ideal for the keys: it is thin enough to sit
+                flush on the box lid, conducts well for capacitive touch, and
+                can be cut to any size with scissors.
+              </li>
+              <li>
+                The breadboard, ESP32, and all wiring live inside the box under
+                a removable lid so the instrument can be maintained without
+                destroying the enclosure.
+              </li>
+              <li>
+                Wires are routed from the copper pads through small holes in the
+                box lid down to the breadboard, keeping the top surface clean
+                and the cables organized.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="project-section">
+          <h2>Two Modes of Operation</h2>
+          <p>
+            The instrument has two distinct sonic and visual personalities,
+            switchable by long-pressing pad5 for roughly one second. The
+            current mode is indicated by both the laptop visuals and the sound
+            behavior, so the performer always knows which mode is active.
+          </p>
+
+          <h3>Mode 1 — Melodic Notes</h3>
+          <p>
+            Each of the five pads plays a distinct pitched note mapped across a
+            musical scale. Short taps produce short, percussive tones; holding
+            a pad sustains the note with a looped envelope. The laptop visuals
+            respond with bright, discrete color pulses — one per pad — so each
+            key has its own visual signature. This mode is designed for playing
+            melodies and rhythmic patterns.
+          </p>
+
+          <h3>Mode 2 — Textures / Effects</h3>
+          <p>
+            Pads control continuous sound parameters instead of triggering
+            individual notes. Pad1 adjusts drone pitch, pad2 sweeps a filter
+            cutoff, pad3 controls reverb depth, pad4 sets LFO rate, and pad5
+            (when not used for mode switching) triggers envelope shapes.
+            Touching and holding different combinations sculpts evolving ambient
+            textures. The visuals shift to flowing gradients, blur, and
+            particle effects that mirror the continuous nature of the sound.
+          </p>
+        </section>
+
+        <section class="project-section">
+          <h2>Software Architecture</h2>
+          <p>
+            The system is split into two halves that communicate over USB
+            serial:
+          </p>
+          <ul>
+            <li>
+              <strong>ESP32 firmware (<code>main.cpp</code>):</strong> reads
+              all five capacitive touch pins via
+              <code>touchRead()</code>, converts raw values to binary
+              states using calibrated thresholds, detects the pad5
+              long-press for mode switching, and prints a CSV line
+              (<code>mode,p1,p2,p3,p4,p5</code>) at ~20 Hz over serial.
+            </li>
+            <li>
+              <strong>Laptop visuals &amp; sound
+              (<code>main.py</code>):</strong> a Python program using
+              <code>pyserial</code> to read the CSV stream,
+              <code>pygame</code> for real-time graphics, and
+              <code>numpy</code> for tone generation. It parses the mode
+              flag and pad states each frame and dispatches to the
+              appropriate rendering and audio engine.
+            </li>
+          </ul>
+          <p>
+            An optional web-based visualizer is also included: a Python
+            WebSocket server (<code>server.py</code>) reads serial and
+            broadcasts JSON to a browser client
+            (<code>index.html</code>) that draws pads on a canvas and
+            plays tones via WebAudio.
+          </p>
+        </section>
+
+        <section class="project-section">
+          <h2>Enclosure &amp; Build</h2>
+          <p>
+            The breadboard is mounted inside the base of the LV box with
+            double-sided tape. The ESP32 plugs into the breadboard, and its
+            USB port faces a small notch cut in the side of the box for the
+            cable. Five jumper wires run from the breadboard up through holes
+            in the lid to the copper-tape pads on top.
+          </p>
+          <p>
+            Each pad is labeled (1–5) with a small marker dot on the copper
+            tape. Pad5 is placed at the far right and marked distinctly
+            because it doubles as the mode-switch key. The lid is removable
+            so the breadboard can be accessed for debugging or rewiring.
+          </p>
+          <p>
+            To minimize false triggers, sensor wires are kept short, ground
+            and shielding traces on the breadboard are isolated from the touch
+            lines, and adjacent pads have a small gap between them on the box
+            lid.
+          </p>
+        </section>
+
+        <section class="project-section">
+          <h2>Video Documentation</h2>
+          <figure>
+            <div
+              style="
+                position: relative;
+                padding-bottom: 56.25%;
+                height: 0;
+                overflow: hidden;
+                max-width: 100%;
+                border-radius: 0.5rem;
+              "
+            >
+              <!-- Replace the src below with your actual YouTube embed URL -->
+              <iframe
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                "
+                src="https://www.youtube.com/embed/VIDEO_ID_HERE"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <figcaption class="project-image-caption">
+              Demo of the LV Piano in action: switching between melodic notes
+              and ambient textures while the laptop renders synchronized visuals
+              and sound.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section class="project-section">
+          <h2>Photos</h2>
+          <div class="project-images-grid">
+            <figure>
+              <img
+                src="images/lv-piano-top.jpeg"
+                alt="Top-down view of the five copper-tape keys on the Louis Vuitton box lid"
+              />
+              <figcaption class="project-image-caption">
+                Top-down view showing the five copper-tape keys arranged in a
+                piano layout on the LV box lid.
+              </figcaption>
+            </figure>
+
+            <figure>
+              <img
+                src="images/lv-piano-inside.jpeg"
+                alt="Inside of the LV box showing the breadboard, ESP32, and wiring"
+              />
+              <figcaption class="project-image-caption">
+                Inside the enclosure: the breadboard holds the ESP32 and all
+                wiring, with jumper wires routed up through the lid to the
+                touch pads.
+              </figcaption>
+            </figure>
+
+            <figure>
+              <img
+                src="images/lv-piano-visuals.jpeg"
+                alt="Laptop screen showing the real-time visual output responding to pad touches"
+              />
+              <figcaption class="project-image-caption">
+                Laptop visuals reacting to touch input — bright pulses in
+                Mode 1 (melodic) and flowing gradients in Mode 2 (textures).
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="project-section">
+          <h2>Code &amp; README</h2>
+          <p>
+            The full source code for both the ESP32 firmware and the laptop
+            visuals/sound program lives in the following repository:
+          </p>
+          <ul>
+            <li>
+              <strong>Repository:</strong>
+              <a href="https://github.com/jessicasunxx/skin-synth" target="_blank"
+                >https://github.com/jessicasunxx/skin-synth</a
+              >
+            </li>
+          </ul>
+          <p>
+            The README includes build/upload instructions, a wiring diagram,
+            dependency list, and usage notes so a third party can reproduce
+            the instrument. Key files:
+          </p>
+          <ul>
+            <li>
+              <code>esp32-touch-instrument/src/main.cpp</code> — firmware
+              that reads touch sensors and streams CSV over serial
+            </li>
+            <li>
+              <code>esp32-touch-instrument/platformio.ini</code> —
+              PlatformIO config for the TTGO T-Display
+            </li>
+            <li>
+              <code>laptop-visuals/main.py</code> — Python program for
+              real-time visuals and sound (requires
+              <code>pyserial</code>, <code>pygame</code>,
+              <code>numpy</code>)
+            </li>
+            <li>
+              <code>web-visuals/server.py</code> and
+              <code>web-visuals/index.html</code> — optional WebSocket-based
+              browser visualizer
+            </li>
+          </ul>
+          <p>To build and run:</p>
+          <ol>
+            <li>Clone the repository.</li>
+            <li>
+              Flash the ESP32: <code>pio run -d skin-synth/esp32-touch-instrument
+              -e ttgo-t1 -t upload</code>
+            </li>
+            <li>
+              Install Python dependencies:
+              <code>pip install pyserial pygame numpy</code>
+            </li>
+            <li>
+              Run the desktop visuals:
+              <code>python skin-synth/laptop-visuals/main.py</code>
+            </li>
+            <li>
+              Touch the pads and play — long-press pad5 to toggle modes.
+            </li>
+          </ol>
+        </section>
+
+        <section class="project-section">
+          <h2>Reflection</h2>
+          <p>
+            Building the LV Piano taught me how much the enclosure shapes the
+            instrument. Early prototypes with bare wires on a breadboard felt
+            fragile and clinical. The moment I mounted the copper keys on the
+            box lid and hid the electronics inside, the same circuit became
+            something people wanted to touch and explore. The piano-key
+            metaphor gave first-time users instant confidence about how to
+            interact with it, even without instructions.
+          </p>
+          <p>
+            On the software side, splitting the system into a simple CSV
+            stream from the ESP32 and a full Python audio/visual engine on the
+            laptop kept each half easy to debug independently. I could test the
+            firmware with a serial monitor and the visuals with fake data before
+            connecting them. The two-mode system pushed me to think about how
+            the same physical gesture (touching a pad) can mean very different
+            things depending on context, which is a design problem that extends
+            well beyond this project.
+          </p>
+          <p>
+            The biggest technical challenge was calibrating touch thresholds so
+            the pads responded reliably without false triggers from adjacent
+            keys or ground noise. Keeping the wires short and physically
+            separating the copper pads solved most issues, but I learned that
+            capacitive touch is deeply sensitive to the physical environment
+            — humidity, hand moisture, and even the table surface all matter.
+          </p>
+          <p>
+            If I were to extend the project, I would add MIDI output so the
+            instrument could drive any software synth, and experiment with
+            pressure sensitivity by reading the raw analog touch values
+            instead of thresholding them to binary.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          © 2026 Jessica Sun ·
+          <a href="../../index.html">Back to portfolio</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
