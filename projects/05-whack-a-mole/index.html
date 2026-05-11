@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Whack-a-Mole — Final Project • Jessica Sun</title>
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a href="../../index.html" class="home-link">Home</a>
+        <h1 class="site-title">Whack-a-Mole</h1>
+        <p class="site-subtitle">Final Project · Creative Embedded Systems</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <section class="project-hero">
+          <figure>
+            <img
+              src="main1.jpeg"
+              alt="Whack-a-Mole build: TTGO T-Display showing game UI beside four copper tape touch pads wired to the ESP32"
+              style="max-width: 700px; margin: 0 auto;"
+            />
+            <figcaption class="project-image-caption">
+              TTGO T-Display as the arcade screen with copper-tape pads as the
+              physical “mole” targets for the finished game.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section class="project-header">
+          <h1>Whack-a-Mole on ESP32</h1>
+          <p>
+            An interactive Whack-a-Mole arcade game on the ESP32 TTGO T-Display,
+            using homemade capacitive touch pads (copper tape) as the only
+            controllers. Everything runs on the board — the ST7789 TFT is the
+            game screen, the pads are the buttons, and no host computer is
+            required to play.
+          </p>
+          <p>
+            The firmware is written in C++ with the Arduino framework under
+            PlatformIO Core 6.1.19, with graphics handled by
+            <code>TFT_eSPI</code>. USB supplies power and optional serial
+            debugging.
+          </p>
+        </section>
+
+        <section class="project-meta-layout">
+          <div class="project-section">
+            <h2>Hardware</h2>
+            <ul>
+              <li>
+                ESP32 TTGO T-Display — microcontroller plus 240×135 ST7789 TFT
+              </li>
+              <li>
+                Four capacitive touch pads (copper tape) — GPIO touch inputs
+                <strong>15</strong>, <strong>13</strong>, <strong>12</strong>,
+                <strong>27</strong>
+              </li>
+              <li>
+                Four LEDs (one per mole) — GPIO <strong>25</strong>,
+                <strong>26</strong>, <strong>27</strong>, <strong>32</strong>
+              </li>
+              <li>USB for power and serial</li>
+            </ul>
+            <p>
+              If a touch line and an LED share the same GPIO in your wiring,
+              move one function to a free pin and update the firmware so both
+              sensing and feedback stay reliable.
+            </p>
+          </div>
+
+          <div class="project-section">
+            <h2>Features</h2>
+            <ul>
+              <li>
+                Full UI flow: start screen, active play, and game over, drawn
+                with <code>TFT_eSPI</code>
+              </li>
+              <li>
+                Capacitive touch using the ESP32 touch peripheral, with
+                baseline calibration on boot
+              </li>
+              <li>
+                Progressive difficulty — mole window tightens from 1500&nbsp;ms
+                → 1100&nbsp;ms → 800&nbsp;ms over 30&nbsp;s
+              </li>
+              <li>
+                On-screen <strong>HIT!</strong> / <strong>MISS!</strong>
+                feedback with color coding
+              </li>
+              <li>
+                Non-blocking timing — game logic uses <code>millis()</code>
+                instead of <code>delay()</code> so input stays responsive
+              </li>
+              <li>Score tracking and final score on game over</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="project-section">
+          <h2>Photos</h2>
+          <p>
+            Build and play views: enclosure, wiring, and the TFT in different
+            moments of the game UI.
+          </p>
+          <div class="project-images-grid">
+            <figure>
+              <img
+                src="inside1.jpeg"
+                alt="Interior view of the Whack-a-Mole hardware showing ESP32 TTGO wiring, LEDs, and connections"
+              />
+              <figcaption class="project-image-caption">
+                Inside view of the TTGO stack, jumper routing, and LED lines
+                for per-mole feedback.
+              </figcaption>
+            </figure>
+
+            <figure>
+              <img
+                src="second1.jpeg"
+                alt="Whack-a-Mole project photo showing the playable setup with capacitive pads and TFT display"
+              />
+              <figcaption class="project-image-caption">
+                Another angle on the playable surface and how the pads line up
+                with the screen.
+              </figcaption>
+            </figure>
+
+            <figure>
+              <img
+                src="second2.jpeg"
+                alt="Whack-a-Mole project photo emphasizing display or LEDs during gameplay"
+              />
+              <figcaption class="project-image-caption">
+                Game in action — on-screen state with the physical targets in
+                frame.
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="project-section">
+          <h2>Technical challenges</h2>
+          <p>
+            <strong>Touch bring-up.</strong>
+            <code>touchRead()</code> expects GPIO numbers, not abstract touch
+            channel indices — mixing them up caused three of four pads to read
+            as dead or zero. A minimal serial test sketch to print raw values,
+            combined with the ESP32 datasheet, was what made the mapping
+            obvious.
+          </p>
+          <p>
+            <strong>Integer underflow (“ghost touch”).</strong>
+            Baselines were originally stored in <code>uint16_t</code>. When a
+            pad still read <code>0</code> before calibration, subtracting the
+            threshold wrapped to a huge value, so every pad looked permanently
+            pressed — the game jumped from start to game over almost instantly
+            and the display seemed frozen. Widening the math to
+            <code>uint32_t</code> and guarding against underflow fixed it.
+          </p>
+          <p>
+            <strong>Backlight vs. GPIO.</strong>
+            On the TTGO T-Display, the backlight is often driven from GPIO 4,
+            which conflicted with an early plan to use that line as a touch
+            pad. Resolving it meant picking pins that do not fight the panel’s
+            backlight control and aligning <code>platformio.ini</code> build
+            flags with the actual wiring.
+          </p>
+        </section>
+
+        <section class="project-section">
+          <h2>Reflection</h2>
+          <p>
+            Embedded debugging is not desktop debugging — you cannot always
+            stop the world on a breakpoint. Building a tiny serial harness to
+            isolate each sensor before folding it into the full game saved a
+            lot of guesswork. I also got a clearer picture of how capacitive
+            sensing behaves and why a solid ground reference matters for
+            consistent reads.
+          </p>
+        </section>
+
+        <section class="project-section">
+          <h2>What I’d improve next</h2>
+          <ul>
+            <li>Buzzer or small speaker for hit / miss audio</li>
+            <li>Persist high scores in flash (NVS / EEPROM-style storage)</li>
+            <li>Custom PCB instead of breadboard jumpers</li>
+            <li>Multiplayer over WiFi with a second ESP32</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          © 2026 Jessica Sun ·
+          <a href="../../index.html">Back to portfolio</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
